@@ -1,13 +1,8 @@
-package com.example.AgriTechLogin.repository;
-
-
+package com.example.Agri.L.P.BE.repository;
+import com.example.Agri.L.P.BE.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
-
-@Repository
-public interface UserRepository extends JpaRepository<com.example.AgriTechLogin.model.User, Long> {
-    Optional<com.example.AgriTechLogin.model.User> findByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
 }
