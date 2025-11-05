@@ -1,11 +1,6 @@
-package com.example.AgriTechLogin.model;
-
+package com.example.Agri.L.P.BE.model;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 @Entity
 @Data
 @NoArgsConstructor
@@ -13,11 +8,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String email;
     private String password;
