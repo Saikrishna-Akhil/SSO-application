@@ -1,44 +1,40 @@
-package com.example.AgriTechLogin.controller;
-
-import com.example.AgriTechLogin.dto.LoginDto;
-import com.example.AgriTechLogin.model.User;
-import com.example.AgriTechLogin.service.UserService;
+package com.example.Agri.L.P.BE.controller;
+import com.example.Agri.L.P.BE.dto.LoginDto;
+import com.example.Agri.L.P.BE.model.User;
+import com.example.Agri.L.P.BE.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.Map;
 @RestController
-@RequestMapping("/api") // ✅ Base path for all endpoints
-@CrossOrigin(origins = "http://localhost:3000") // ✅ Allow frontend (React) to access
-public class UserController {
-
+@RequestMapping("/api")
+@CrossOrigin(origins = "*")
+public class AuthController {
     @Autowired
     private UserService userService;
-
-    // 🔹 Register a new user
-    @PostMapping("/addUser")
-    public String register(@RequestBody User user) {
-        String result = userService.registerUser(user);
-        if (result == null || result.isEmpty()) {
-            return "❌ User Not Registered.";
-        } else {
-            return "✅ User Registered Successfully!";
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody User user) {
+        try {
+            return ResponseEntity.ok(userService.registerUser(user));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-    // 🔹 Login existing user
-    @PostMapping("/loginUser")
-    public String loginUser(@RequestBody LoginDto loginDto) {
-        String result = userService.loginUser(loginDto.getEmail(), loginDto.getPassword());
-        if (result != null && !result.isEmpty()) {
-            return "✅ Login Successful!";
-        } else {
-            return "❌ Login Failed. Invalid credentials.";
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginDto loginData) {
+        try {
+            String token = userService.loginUser(loginData.getEmail(), loginData.getPassword());
+            return ResponseEntity.ok(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Invalid credentials");
         }
     }
-
-    // 🔹 Simple test endpoint
-    @GetMapping("/test")
-    public String testEndpoint() {
-        return "🚀 Backend is running perfectly!";
+    @GetMapping("/success")
+    public String getsuccess()
+    {
+        return "Welcome to my website";
     }
 }
